@@ -40,9 +40,9 @@ export default function Navbar() {
                         </div>
                         <div>
                             <h1 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600 bg-clip-text text-transparent">
-                                TodoApp
+                                Achievo
                             </h1>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">Stay Organized</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 -mt-1">ทุกเรื่องสำคัญ เรียงร้อยเป็นระเบียบ</p>
                         </div>
                     </div>
 
@@ -55,7 +55,7 @@ export default function Navbar() {
                                     <User className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div className="text-sm">
-                                    <p className="font-medium text-gray-900 dark:text-gray-100">Welcome back!</p>
+                                    <p className="font-medium text-gray-900 dark:text-gray-100">ยินดีต้อนรับกลับ</p>
                                     <p className="text-gray-600 dark:text-gray-400 -mt-0.5">{user.email}</p>
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ export default function Navbar() {
                                 <LogOut className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
                             )}
                             <span className="hidden sm:inline">
-                                {isLoggingOut ? 'Logging out...' : 'Logout'}
+                                {isLoggingOut ? 'Logging out...' : 'ออกจากระบบ'}
                             </span>
                             
                             {/* Tooltip for mobile */}

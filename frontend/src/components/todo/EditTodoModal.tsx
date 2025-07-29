@@ -15,17 +15,17 @@ interface EditTodoModalProps {
 }
 
 const priorityOptions = [
-    { value: 'LOW', label: 'Low', color: 'text-green-600', bgColor: 'bg-green-50 border-green-200', icon: '🟢' },
-    { value: 'MEDIUM', label: 'Medium', color: 'text-yellow-600', bgColor: 'bg-yellow-50 border-yellow-200', icon: '🟡' },
-    { value: 'HIGH', label: 'High', color: 'text-red-600', bgColor: 'bg-red-50 border-red-200', icon: '🔴' },
+    { value: 'LOW', label: 'น้อย', color: 'text-green-600', bgColor: 'bg-green-50 border-green-200', icon: '🟢' },
+    { value: 'MEDIUM', label: 'ปานกลาง', color: 'text-yellow-600', bgColor: 'bg-yellow-50 border-yellow-200', icon: '🟡' },
+    { value: 'HIGH', label: 'สูง', color: 'text-red-600', bgColor: 'bg-red-50 border-red-200', icon: '🔴' },
 ];
 
 // Quick date options
 const quickDateOptions = [
-    { label: 'Today', days: 0, icon: '📅' },
-    { label: 'Tomorrow', days: 1, icon: '⏰' },
-    { label: 'Week', days: 7, icon: '📊' },
-    { label: 'Month', days: 30, icon: '📆' },
+    { label: 'วันนี้', days: 0, icon: '📅' },
+    { label: 'พรุ่งนี้', days: 1, icon: '⏰' },
+    { label: 'สัปดาห์', days: 7, icon: '📊' },
+    { label: 'เดือน', days: 30, icon: '📆' },
 ];
 
 export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categories }: EditTodoModalProps) {
@@ -96,11 +96,11 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                 onUpdate(response.data);
                 onClose();
                 setIsSubmitting(false);
-                return 'Task updated!';
+                return 'อัปเดตสําเร็จ!';
             },
             error: (error) => {
                 setIsSubmitting(false);
-                return 'Failed to save.';
+                return 'อัปเดตไม่สําเร็จ!';
             },
         });
     };
@@ -127,8 +127,8 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                             <Save className="h-4 w-4 text-white" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Edit Task</h3>
-                            <p className="text-xs text-slate-600 dark:text-slate-400">Update details</p>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">แก้ไขงาน</h3>
+                            <p className="text-xs text-slate-600 dark:text-slate-400">อัพเดตรายละเอียดงาน</p>
                         </div>
                     </div>
                     <button
@@ -145,7 +145,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         {/* Title Field */}
                         <div className="space-y-2">
                             <label htmlFor="title" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Task Title *
+                                ชื่องาน
                             </label>
                             <input
                                 id="title"
@@ -161,7 +161,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         {/* Description Field */}
                         <div className="space-y-2">
                             <label htmlFor="description" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                Description
+                                รายละเอียด
                             </label>
                             <textarea
                                 id="description"
@@ -169,7 +169,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                 onChange={(e) => setDescription(e.target.value)}
                                 rows={2}
                                 className="w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white resize-none"
-                                placeholder="Add details..."
+                                placeholder="รายละเอียดเพิ่มเติม..."
                             />
                         </div>
 
@@ -177,7 +177,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         <div className="space-y-3">
                             <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                                 <Flag className="h-3.5 w-3.5" />
-                                Priority
+                                ลำดับความสำคัญ
                             </label>
                             <div className="grid grid-cols-3 gap-2">
                                 {priorityOptions.map((option) => (
@@ -205,7 +205,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                             <div className="flex items-center justify-between">
                                 <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                                     <Calendar className="h-3.5 w-3.5" />
-                                    Due Date
+                                    วันครบกำหนด
                                 </label>
                                 {dueDate && (
                                     <button
@@ -213,7 +213,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                         onClick={clearDueDate}
                                         className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
                                     >
-                                        Clear
+                                        ล้าง
                                     </button>
                                 )}
                             </div>
@@ -255,7 +255,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                     className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
                                 >
                                     <Calendar className="h-3.5 w-3.5" />
-                                    Custom Date
+                                    เลือกวันที่ และเวลา
                                     <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showCustomDate ? 'rotate-180' : ''}`} />
                                 </button>
 
@@ -263,7 +263,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                     <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
                                         <div>
                                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                                Date
+                                                วัน/เดือน/ปี
                                             </label>
                                             <input
                                                 type="date"
@@ -274,7 +274,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                         </div>
                                         <div>
                                             <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                                Time
+                                                เวลา
                                             </label>
                                             <input
                                                 type="time"
@@ -292,7 +292,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         <div className="space-y-2">
                             <label htmlFor="category" className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
                                 <Tag className="h-3.5 w-3.5" />
-                                Category
+                                หมวดหมู่
                             </label>
                             <select
                                 id="category"
@@ -300,7 +300,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                                 onChange={(e) => setCategoryId(e.target.value)}
                                 className="w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white"
                             >
-                                <option value="">🏷️ No Category</option>
+                                <option value="">🏷️ ไม่มีหมวดหมู่</option>
                                 {categories.map(cat => (
                                     <option key={cat.id} value={cat.id}>
                                         📁 {cat.name}
@@ -318,7 +318,7 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         onClick={onClose}
                         className="flex-1 px-4 py-2.5 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg font-medium transition-all duration-200"
                     >
-                        Cancel
+                        ยกเลิก
                     </button>
                     <button
                         type="submit"
@@ -330,12 +330,12 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
                         {isSubmitting ? (
                             <>
                                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                                Saving...
+                                กำลังบันทึก...
                             </>
                         ) : (
                             <>
                                 <Save className="h-4 w-4" />
-                                Save
+                                บันทึก
                             </>
                         )}
                     </button>

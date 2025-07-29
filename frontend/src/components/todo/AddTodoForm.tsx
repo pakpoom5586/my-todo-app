@@ -20,9 +20,9 @@ export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
             const response = await api.post('/todos', { title, priority: 'MEDIUM' });
             onTodoAdded(response.data);
             setTitle(''); // Reset a form
-            toast.success('Task added successfully!');
+            toast.success('เพิ่มงานสําเร็จ!');
         } catch (error) {
-            toast.error('Failed to add task.');
+            toast.error('เพิ่มงานล้มเหลว!');
             console.error('Failed to add todo', error);
         }
     };
@@ -33,7 +33,7 @@ export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="What needs to be done?"
+                placeholder="อยากจะทำอะไร?"
                 className="flex-grow p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
             />
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">

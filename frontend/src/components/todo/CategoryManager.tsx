@@ -50,8 +50,8 @@ export default function CategoryManager({ categories, onUpdate }: CategoryManage
                     <Palette className="h-6 w-6 text-purple-600 dark:text-purple-400" />
                 </div>
                 <div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">Category Manager</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Organize your tasks by categories</p>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">จัดการหมวดหมู่</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">จัดระเบียบงานของคุณตามหมวดหมู่</p>
                 </div>
             </div>
 
@@ -61,7 +61,7 @@ export default function CategoryManager({ categories, onUpdate }: CategoryManage
                     <div className="flex items-center gap-2 mb-3">
                         <Tag className="h-4 w-4 text-gray-500" />
                         <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                            Your Categories ({categories.length})
+                            หมวดหมู่ของคุณ ({categories.length})
                         </span>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ export default function CategoryManager({ categories, onUpdate }: CategoryManage
             ) : (
                 <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 text-center">
                     <Tag className="h-8 w-8 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-500 dark:text-gray-400 text-sm">No categories yet. Create your first one below!</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">ยังไม่มีหมวดหมู่ สร้างหมวดหมู่แรกของคุณด้านล่าง!</p>
                 </div>
             )}
 
@@ -99,7 +99,7 @@ export default function CategoryManager({ categories, onUpdate }: CategoryManage
                             type="text"
                             value={newCategoryName}
                             onChange={e => setNewCategoryName(e.target.value)}
-                            placeholder="Enter category name..."
+                            placeholder="กรอกชื่อหมวดหมู่"
                             className="w-full px-4 py-3 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-500"
                             disabled={isAdding}
                         />
@@ -114,7 +114,7 @@ export default function CategoryManager({ categories, onUpdate }: CategoryManage
                         ) : (
                             <Plus className="h-4 w-5" />
                         )}
-                        <span className="hidden sm:inline">Add Category</span>
+                        <span className="hidden sm:inline">เพิ่มหมวดหมู่</span>
                     </button>
                 </div>
             </form>

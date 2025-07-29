@@ -49,18 +49,18 @@ export default function LoginPage() {
                             <LogIn className="w-10 h-10 text-white" />
                         </div>
                         <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                            TodoApp
+                            Achievo
                         </h1>
                         <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                            Welcome back
+                            ยินดีต้อนรับ
                         </h2>
                         <p className="mt-2 text-slate-600 dark:text-slate-400">
-                            Don't have an account?{' '}
+                            ยังไม่มีบัญชีใช่ไหม?{' '}
                             <Link 
                                 to="/register" 
                                 className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 transition-colors"
                             >
-                                Sign up for free
+                                สมัครสมาชิก
                             </Link>
                         </p>
                     </div>
@@ -71,7 +71,7 @@ export default function LoginPage() {
                             {/* Email Field */}
                             <div className="space-y-2">
                                 <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Email address
+                                    อีเมล
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -85,7 +85,7 @@ export default function LoginPage() {
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
                                         className="w-full pl-12 pr-4 py-3 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/50 dark:bg-slate-700/50 text-slate-900 dark:text-white transition-all duration-200"
-                                        placeholder="Enter your email"
+                                        placeholder="กรอกอีเมล์ของคุณ"
                                     />
                                 </div>
                             </div>
@@ -93,7 +93,7 @@ export default function LoginPage() {
                             {/* Password Field */}
                             <div className="space-y-2">
                                 <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Password
+                                    รหัสผ่าน
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -107,7 +107,7 @@ export default function LoginPage() {
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         className="w-full pl-12 pr-12 py-3 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white/50 dark:bg-slate-700/50 text-slate-900 dark:text-white transition-all duration-200"
-                                        placeholder="Enter your password"
+                                        placeholder="กรอกรหัสผ่านของคุณ"
                                     />
                                     <button
                                         type="button"
@@ -135,7 +135,7 @@ export default function LoginPage() {
                                 ) : (
                                     <>
                                         <LogIn className="mr-2 h-5 w-5" />
-                                        Sign In
+                                        เข้าสู่ระบบ
                                     </>
                                 )}
                             </button>
@@ -154,19 +154,11 @@ export default function LoginPage() {
                 <div className="absolute inset-0 bg-gradient-to-br from-blue-600/80 to-indigo-800/80" />
                 <div className="relative p-12 text-white flex flex-col justify-center h-full">
                     <h2 className="text-5xl font-bold mb-6 leading-tight">
-                        Organize your life with ease
+                        จัดระเบียบชีวิตของคุณได้อย่างง่ายดาย
                     </h2>
                     <p className="text-xl opacity-90 leading-relaxed">
-                        From daily tasks to major projects, TodoApp helps you stay productive and focused on what matters most.
+                        ไม่ว่าจะเป็นงานประจำวันหรือโปรเจ็กต์ใหญ่ Achievo จะช่วยให้คุณทำงานได้อย่างมีประสิทธิภาพและมุ่งเน้นไปที่สิ่งที่สำคัญที่สุด
                     </p>
-                    <div className="mt-8 flex items-center space-x-4">
-                        <div className="flex -space-x-2">
-                            <div className="w-10 h-10 bg-white/20 rounded-full border-2 border-white/30" />
-                            <div className="w-10 h-10 bg-white/20 rounded-full border-2 border-white/30" />
-                            <div className="w-10 h-10 bg-white/20 rounded-full border-2 border-white/30" />
-                        </div>
-                        <p className="text-sm opacity-80">Trusted by thousands of users</p>
-                    </div>
                 </div>
             </div>
         </div>

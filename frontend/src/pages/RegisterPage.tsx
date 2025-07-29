@@ -30,10 +30,10 @@ export default function RegisterPage() {
         setError(null);
         try {
             await api.post('/auth/register', { email, password });
-            toast.success('Registration successful! Please log in.');
+            toast.success('ลงทะเบียนสำเร็จ! กรุณาเข้าสู่ระบบ');
             navigate('/login');
         } catch (err: any) {
-            const msg = err.response?.data?.message || 'Registration failed.';
+            const msg = err.response?.data?.message || 'การลงทะเบียนล้มเหลว';
             setError(msg);
             toast.error(msg);
         } finally {
@@ -64,18 +64,18 @@ export default function RegisterPage() {
                             <UserPlus className="w-10 h-10 text-white" />
                         </div>
                         <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                           TodoApp
+                            Achievo
                         </h1>
                         <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
-                           Create your account
+                           สร้างบัญชีของคุณ
                         </h2>
                         <p className="mt-2 text-slate-600 dark:text-slate-400">
-                            Already have an account?{' '}
+                            มีบัญชีอยู่แล้วใช่ไหม?{' '}
                             <Link 
                                 to="/login" 
                                 className="font-medium text-purple-600 hover:text-purple-500 dark:text-purple-400 transition-colors"
                             >
-                                Sign in here
+                                ลงชื่อเข้าใช้ที่นี่
                             </Link>
                         </p>
                     </div>
@@ -86,7 +86,7 @@ export default function RegisterPage() {
                             {/* Email Field */}
                             <div className="space-y-2">
                                 <label htmlFor="email" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                    Email address
+                                    ที่อยู่อีเมล
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -107,7 +107,7 @@ export default function RegisterPage() {
                            {/* Password Field */}
                            <div className="space-y-2">
                                <label htmlFor="password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                   Password
+                                   รหัสผ่าน
                                </label>
                                <div className="relative">
                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -136,7 +136,7 @@ export default function RegisterPage() {
                                {password && (
                                    <div className="mt-2">
                                        <div className="flex items-center justify-between mb-1">
-                                           <span className="text-xs text-slate-500 dark:text-slate-400">Password strength</span>
+                                           <span className="text-xs text-slate-500 dark:text-slate-400">ระดับความปลอดภัยรหัสผ่าน</span>
                                            <span className={`text-xs font-medium ${passwordStrength.color}`}>
                                                {passwordStrength.text}
                                            </span>
@@ -157,7 +157,7 @@ export default function RegisterPage() {
                            {/* Confirm Password Field */}
                            <div className="space-y-2">
                                <label htmlFor="confirm-password" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-                                   Confirm Password
+                                   ยืนยันรหัสผ่าน
                                </label>
                                <div className="relative">
                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
@@ -218,20 +218,20 @@ export default function RegisterPage() {
                                ) : (
                                    <>
                                        <UserPlus className="mr-2 h-5 w-5" />
-                                       Create Account
+                                       สมัครสมาชิก
                                    </>
                                )}
                            </button>
 
                            {/* Terms and Privacy */}
                            <p className="text-xs text-center text-slate-500 dark:text-slate-400">
-                               By creating an account, you agree to our{' '}
+                               โดยการสร้างบัญชี คุณยอมรับข้อตกลงของเรา{' '}
                                <a href="#" className="text-purple-600 hover:text-purple-500 dark:text-purple-400">
-                                   Terms of Service
+                                   เงื่อนไขการบริการ
                                </a>{' '}
-                               and{' '}
+                               และ{' '}
                                <a href="#" className="text-purple-600 hover:text-purple-500 dark:text-purple-400">
-                                   Privacy Policy
+                                  นโยบายความเป็นส่วนตัว
                                </a>
                            </p>
                        </form>
@@ -250,10 +250,10 @@ export default function RegisterPage() {
 
                 <div className="relative p-12 text-white flex flex-col justify-center h-full">
                     <h2 className="text-5xl font-bold mb-6 leading-tight">
-                       Start your productivity journey
+                       เริ่มต้นการเดินทางสู่ประสิทธิภาพการทำงานของคุณ
                     </h2>
                     <p className="text-xl opacity-90 leading-relaxed mb-8">
-                        Join thousands of users who have transformed their daily workflow with our intuitive task management system.
+                        เข้าร่วมกับผู้ใช้หลายคนที่ได้เปลี่ยนเวิร์กโฟลว์ประจำวันของตนด้วยระบบจัดการงานที่ใช้งานง่ายของเรา
                     </p>
                     
                     {/* Feature highlights */}
@@ -262,19 +262,19 @@ export default function RegisterPage() {
                            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                                <div className="w-2 h-2 bg-white rounded-full" />
                            </div>
-                           <span className="text-sm opacity-90">Drag & drop task management</span>
+                           <span className="text-sm opacity-90">การจัดการงานแบบลากและวาง</span>
                        </div>
                        <div className="flex items-center space-x-3">
                            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                                <div className="w-2 h-2 bg-white rounded-full" />
                            </div>
-                           <span className="text-sm opacity-90">Smart categorization system</span>
+                           <span className="text-sm opacity-90">ระบบจัดหมวดหมู่</span>
                        </div>
                        <div className="flex items-center space-x-3">
                            <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
                                <div className="w-2 h-2 bg-white rounded-full" />
                            </div>
-                           <span className="text-sm opacity-90">Real-time collaboration</span>
+                           <span className="text-sm opacity-90">ความร่วมมือแบบเรียลไทม์</span>
                        </div>
                     </div>
                </div>

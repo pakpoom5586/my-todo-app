@@ -40,26 +40,26 @@ export default function TodoItem({ todo, onUpdate, onDelete, onEdit }: TodoItemP
        });
 
        toast.promise(promise, {
-           loading: 'Updating task...',
+           loading: 'อัปเดต...',
            success: (response) => {
                onUpdate(response.data);
-               return todo.isCompleted ? 'Task marked as incomplete!' : 'Task completed! 🎉';
+               return todo.isCompleted ? 'งานถูกทำเครื่องหมายว่ายังไม่เสร็จสมบูรณ์!' : 'งานสำเร็จแล้ว! 🎉';
            },
-           error: 'Could not update task.',
+           error: 'ไม่สามารถอัปเดตงานได้',
        });
    };
 
    const handleDelete = async () => {
-       if (window.confirm(`Are you sure you want to delete "${todo.title}"?`)) {
+       if (window.confirm(`คุณแน่ใจว่าต้องการลบหรือไม่ "${todo.title}"?`)) {
            const promise = api.delete(`/todos/${todo.id}`);
            
            toast.promise(promise, {
-               loading: 'Deleting task...',
+               loading: 'กําลังลบ...',
                success: () => {
                    onDelete(todo.id);
-                   return 'Task deleted successfully!';
+                   return 'ลบงานสำเร็จแล้ว!';
                },
-               error: 'Could not delete task.',
+               error: 'ไม่สามารถลบงานได้',
            });
        }
    };

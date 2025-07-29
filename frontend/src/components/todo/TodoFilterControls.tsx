@@ -13,26 +13,26 @@ interface FilterControlsProps {
 
 const filterOptions = {
     status: [
-        { value: 'ALL', label: 'All Tasks', icon: '📋' },
-        { value: 'TODO', label: 'To Do', icon: '⭕' },
-        { value: 'IN_PROGRESS', label: 'In Progress', icon: '🔄' },
-        { value: 'DONE', label: 'Completed', icon: '✅' },
+        { value: 'ALL', label: 'งานทั้งหมด', icon: '📋' },
+        { value: 'TODO', label: 'สิ่งที่ต้องทํา', icon: '⭕' },
+        { value: 'IN_PROGRESS', label: 'กำลังทำอยู่', icon: '🔄' },
+        { value: 'DONE', label: 'เสร็จแล้ว', icon: '✅' },
     ],
     priority: [
-        { value: 'ALL', label: 'All Priorities', icon: '🎯' },
-        { value: 'HIGH', label: 'High Priority', icon: '🔴', color: 'text-red-600 dark:text-red-400' },
-        { value: 'MEDIUM', label: 'Medium Priority', icon: '🟡', color: 'text-yellow-600 dark:text-yellow-400' },
-        { value: 'LOW', label: 'Low Priority', icon: '🟢', color: 'text-green-600 dark:text-green-400' },
+        { value: 'ALL', label: 'ลำดับความสำคัญ(ทั้งหมด)', icon: '🎯' },
+        { value: 'HIGH', label: 'ความสำคัญสูง', icon: '🔴', color: 'text-red-600 dark:text-red-400' },
+        { value: 'MEDIUM', label: 'ความสำคัญปานกลาง', icon: '🟡', color: 'text-yellow-600 dark:text-yellow-400' },
+        { value: 'LOW', label: 'ความสำคัญน้อย', icon: '🟢', color: 'text-green-600 dark:text-green-400' },
     ],
 };
 
 const sortOptions = [
-    { value: 'createdAt:desc', label: 'Newest First', icon: '🆕' },
-    { value: 'createdAt:asc', label: 'Oldest First', icon: '📅' },
-    { value: 'dueDate:asc', label: 'Due Date', icon: '⏰' },
-    { value: 'priority:desc', label: 'Priority High to Low', icon: '🔥' },
-    { value: 'priority:asc', label: 'Priority Low to High', icon: '📌' },
-    { value: 'title:asc', label: 'Title A-Z', icon: '🔤' },
+    { value: 'createdAt:desc', label: 'ใหม่สุดก่อน', icon: '🆕' },
+    { value: 'createdAt:asc', label: 'เก่าที่สุดก่อน', icon: '📅' },
+    { value: 'dueDate:asc', label: 'วันครบกำหนด', icon: '⏰' },
+    { value: 'priority:desc', label: 'ลำดับความสำคัญสูงไปต่ำ', icon: '🔥' },
+    { value: 'priority:asc', label: 'ลำดับความสำคัญต่ำถึงสูง', icon: '📌' },
+    { value: 'title:asc', label: 'ชื่อเรื่อง A-Z', icon: '🔤' },
 ];
 
 interface DropdownProps {
@@ -143,7 +143,7 @@ export default function TodoFilterControls({ filters, setFilters, sortBy, setSor
 
     // Prepare category options
     const categoryOptions = [
-        { value: 'ALL', label: 'All Categories', icon: '📁' },
+        { value: 'ALL', label: 'หมวดหมู่ทั้งหมด', icon: '📁' },
         ...categories.map(cat => ({
             value: cat.id,
             label: cat.name,
@@ -220,8 +220,7 @@ export default function TodoFilterControls({ filters, setFilters, sortBy, setSor
             {hasActiveFilters && (
                 <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-700">
                     <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">Active filters:</span>
-                        
+                        <span className="text-sm font-medium text-slate-600 dark:text-slate-400">ตัวกรองที่ใช้งานอยู่:</span>
                         {filters.status !== 'ALL' && (
                             <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 rounded-full text-xs font-medium">
                                 Status: {filterOptions.status.find(s => s.value === filters.status)?.label}
