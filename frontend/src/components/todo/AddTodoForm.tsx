@@ -37,7 +37,7 @@ export default function AddTodoForm({ onTodoAdded }: AddTodoFormProps) {
                 className="flex-grow p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600"
             />
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                Add Task
+                เพิ่มงาน
             </button>
         </form>
     );

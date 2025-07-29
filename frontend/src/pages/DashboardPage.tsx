@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Todo, Category } from "../types";
 import api from "../lib/api";
 import { DragDropContext, Droppable, Draggable, type DropResult } from "@hello-pangea/dnd";
+import { Plus, Filter, SortAsc } from "lucide-react";
 
 // Import Components
 import TodoItem from "../components/todo/TodoItem";
@@ -17,31 +18,54 @@ import CategoryManager from '../components/todo/CategoryManager';
 type ColumnData = {
     name: string;
     items: Todo[];
+    color: string;
+    bgColor: string;
+    textColor: string;
 };
 
 export default function DashboardPage() {
     // --- STATE MANAGEMENT ---
 
     const [columns, setColumns] = useState<Record<string, ColumnData>>({
-        'TODO': { name: 'To Do', items: [] },
-        'IN_PROGRESS': { name: 'In Progress', items: [] },
-        'DONE': { name: 'Done', items: [] },
+        'TODO': { 
+            name: 'To Do', 
+            items: [], 
+            color: 'border-slate-300 dark:border-slate-600',
+            bgColor: 'bg-slate-50/50 dark:bg-slate-800/50',
+            textColor: 'text-slate-700 dark:text-slate-300'
+        },
+        'IN_PROGRESS': { 
+            name: 'In Progress', 
+            items: [], 
+            color: 'border-amber-300 dark:border-amber-600',
+            bgColor: 'bg-amber-50/50 dark:bg-amber-900/20',
+            textColor: 'text-amber-700 dark:text-amber-300'
+        },
+        'DONE': { 
+            name: 'Done', 
+            items: [], 
+            color: 'border-emerald-300 dark:border-emerald-600',
+            bgColor: 'bg-emerald-50/50 dark:bg-emerald-900/20',
+            textColor: 'text-emerald-700 dark:text-emerald-300'
+        },
     });
+    
     const [categories, setCategories] = useState<Category[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [showAddForm, setShowAddForm] = useState(false);
+    const [showFilters, setShowFilters] = useState(false);
 
     // State สำหรับ Filters
-   const [filters, setFilters] = useState({
-    status: 'ALL', 
-    priority: 'ALL',
-    categoryId: 'ALL',
+    const [filters, setFilters] = useState({
+        status: 'ALL', 
+        priority: 'ALL',
+        categoryId: 'ALL',
     });
     
     // State สำหรับ Modal
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null);
     const [sortBy, setSortBy] = useState('');
-    
 
     const fetchData = async () => {
         setIsLoading(true);
@@ -50,7 +74,6 @@ export default function DashboardPage() {
             if (filters.priority !== 'ALL') params.append('priority', filters.priority);
             if (filters.categoryId !== 'ALL') params.append('categoryId', filters.categoryId);
             
-            // การเรียงลำดับพื้นฐาน
             params.append('sortBy', 'createdAt');
             params.append('sortOrder', 'desc');
 
@@ -62,12 +85,12 @@ export default function DashboardPage() {
             const todos: Todo[] = todosRes.data;
             setCategories(categoriesRes.data);
 
-            // จัดเรียง Todos เข้าไปใน Columns
-            const newColumns: Record<string, ColumnData> = {
-                'TODO': { name: 'To Do', items: [] },
-                'IN_PROGRESS': { name: 'In Progress', items: [] },
-                'DONE': { name: 'Done', items: [] },
-            };
+            const newColumns = { ...columns };
+            // Reset items
+            Object.keys(newColumns).forEach(key => {
+                newColumns[key].items = [];
+            });
+            
             todos.forEach(todo => {
                 if (newColumns[todo.status]) {
                     newColumns[todo.status].items.push(todo);
@@ -83,7 +106,7 @@ export default function DashboardPage() {
 
     useEffect(() => {
         fetchData();
-    }, [filters]); // ดึงข้อมูลใหม่เมื่อ filter เปลี่ยน
+    }, [filters]);
 
     // --- EVENT HANDLERS ---
 
@@ -92,13 +115,12 @@ export default function DashboardPage() {
             ...prev,
             'TODO': { ...prev['TODO'], items: [newTodo, ...prev['TODO'].items] },
         }));
+        setShowAddForm(false);
     };
 
     const handleTodoUpdated = (updatedTodo: Todo) => {
-        // ดึงข้อมูลใหม่ทั้งหมดเพื่อให้แน่ใจว่าทุกอย่างถูกต้อง (สถานะ, ลำดับ)
-        // เป็นวิธีที่ง่ายและปลอดภัยที่สุดหลังจากมีการแก้ไข
         fetchData();
-        setIsEditModalOpen(false); // ปิด Modal หลังจากอัปเดต
+        setIsEditModalOpen(false);
     };
 
     const handleTodoDeleted = (todoId: string) => {
@@ -141,54 +163,104 @@ export default function DashboardPage() {
             setColumns({ ...columns, [sourceColId]: { ...startCol, items: sourceItems } });
         }
     };
-    
 
     if (isLoading) {
-        return <Spinner />;
+        return (
+            <div className="flex items-center justify-center min-h-[60vh]">
+                <Spinner />
+            </div>
+        );
     }
-    
 
     return (
-        <>
-            <div className="flex flex-col lg:flex-row lg:gap-8">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+            <div className="container mx-auto px-4 py-8">
                 
-                <aside className="w-full lg:w-80 lg:flex-shrink-0">
-                    <div className="lg:sticky lg:top-24 space-y-6">
-                        <AddTodoForm onTodoAdded={handleTodoAdded} categories={categories} />
-                        <CategoryManager categories={categories} onUpdate={fetchData} />
-                    </div>
-                </aside>
-
-              
-                <main className="flex-grow mt-8 lg:mt-0">
-                    <header className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                        <h1 className="text-3xl font-bold">My Tasks</h1>
-                         <div className="mt-4 md:mt-0">
-                            <TodoFilterControls
-                            filters={filters}
-                            setFilters={setFilters}
-                            categories={categories}
-                            sortBy={sortBy} // add this line
-                            setSortBy={setSortBy} // add this line
-                        />
+                {/* Header Section */}
+                <div className="mb-8">
+                    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                        <div>
+                            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                                My Tasks
+                            </h1>
+                            <p className="text-slate-600 dark:text-slate-400 mt-1">
+                                Organize and track your productivity
+                            </p>
                         </div>
-                    </header>
-                    
-                    {/* Kanban Board */}
-                    <DragDropContext onDragEnd={onDragEnd}>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            {Object.entries(columns).map(([columnId, column]) => (
-                                <Droppable key={columnId} droppableId={columnId}>
-                                    {(provided, snapshot) => (
-                                        <div
-                                            ref={provided.innerRef}
-                                            {...provided.droppableProps}
-                                            className={`p-4 rounded-lg bg-gray-100 dark:bg-gray-800 transition-colors ${snapshot.isDraggingOver ? "bg-blue-100 dark:bg-blue-900" : ""}`}
-                                        >
-                                            <h2 className="text-xl font-semibold mb-4 text-center">
-                                                {column.name} ({column.items.length})
-                                            </h2>
-                                            <div className="space-y-4 min-h-[200px]">
+                        
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => setShowFilters(!showFilters)}
+                                className={`inline-flex items-center px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                                    showFilters 
+                                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25' 
+                                        : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
+                                }`}
+                            >
+                                <Filter className="w-4 h-4 mr-2" />
+                                Filters
+                            </button>
+                            
+                            <button
+                                onClick={() => setShowAddForm(!showAddForm)}
+                                className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-xl text-sm font-medium shadow-lg shadow-blue-600/25 hover:shadow-xl hover:shadow-blue-600/30 transition-all duration-200 hover:scale-105"
+                            >
+                                <Plus className="w-4 h-4 mr-2" />
+                                Add Task
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Collapsible Controls */}
+                    <div className={`mt-6 transition-all duration-300 ease-in-out ${showFilters ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0 overflow-hidden'}`}>
+                        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-6">
+                            <TodoFilterControls
+                                filters={filters}
+                                setFilters={setFilters}
+                                categories={categories}
+                                sortBy={sortBy}
+                                setSortBy={setSortBy}
+                            />
+                        </div>
+                    </div>
+
+                    <div className={`mt-4 transition-all duration-300 ease-in-out ${showAddForm ? 'opacity-100 max-h-96' : 'opacity-0 max-h-0 overflow-hidden'}`}>
+                        <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-6">
+                            <AddTodoForm onTodoAdded={handleTodoAdded} categories={categories} />
+                        </div>
+                    </div>
+                </div>
+
+                {/* Kanban Board */}
+                <DragDropContext onDragEnd={onDragEnd}>
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        {Object.entries(columns).map(([columnId, column]) => (
+                            <Droppable key={columnId} droppableId={columnId}>
+                                {(provided, snapshot) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                        className={`relative rounded-2xl border-2 transition-all duration-300 ${
+                                            snapshot.isDraggingOver 
+                                                ? `${column.color} bg-white/90 dark:bg-slate-800/90 shadow-xl scale-[1.02]` 
+                                                : `${column.color} ${column.bgColor} shadow-lg`
+                                        } backdrop-blur-sm`}
+                                    >
+                                        {/* Column Header */}
+                                        <div className="p-6 pb-4">
+                                            <div className="flex items-center justify-between">
+                                                <h2 className={`text-lg font-semibold ${column.textColor}`}>
+                                                    {column.name}
+                                                </h2>
+                                                <span className={`inline-flex items-center justify-center px-3 py-1 rounded-full text-xs font-medium ${column.textColor} ${column.bgColor} border ${column.color}`}>
+                                                    {column.items.length}
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        {/* Tasks Container */}
+                                        <div className="px-4 pb-6">
+                                            <div className="space-y-3 min-h-[400px]">
                                                 {column.items.map((item, index) => (
                                                     <Draggable key={item.id} draggableId={item.id} index={index}>
                                                         {(providedDraggable, snapshotDraggable) => (
@@ -196,7 +268,11 @@ export default function DashboardPage() {
                                                                 ref={providedDraggable.innerRef}
                                                                 {...providedDraggable.draggableProps}
                                                                 {...providedDraggable.dragHandleProps}
-                                                                className={`${snapshotDraggable.isDragging ? "shadow-2xl scale-105" : "shadow-md"}`}
+                                                                className={`transition-all duration-200 ${
+                                                                    snapshotDraggable.isDragging 
+                                                                        ? "shadow-2xl scale-105 rotate-2" 
+                                                                        : "shadow-md hover:shadow-lg"
+                                                                }`}
                                                             >
                                                                 <TodoItem
                                                                     todo={item}
@@ -209,14 +285,36 @@ export default function DashboardPage() {
                                                     </Draggable>
                                                 ))}
                                                 {provided.placeholder}
+                                                
+                                                {/* Empty State */}
+                                                {column.items.length === 0 && (
+                                                    <div className="flex flex-col items-center justify-center py-12 text-center">
+                                                        <div className={`w-16 h-16 rounded-full ${column.bgColor} flex items-center justify-center mb-3`}>
+                                                            <div className={`w-8 h-8 rounded-full border-2 border-dashed ${column.color}`} />
+                                                        </div>
+                                                        <p className={`text-sm ${column.textColor} opacity-60`}>
+                                                            No tasks yet
+                                                        </p>
+                                                    </div>
+                                                )}
                                             </div>
                                         </div>
-                                    )}
-                                </Droppable>
-                            ))}
-                        </div>
-                    </DragDropContext>
-                </main>
+                                    </div>
+                                )}
+                            </Droppable>
+                        ))}
+                    </div>
+                </DragDropContext>
+
+                {/* Category Manager Section */}
+                <div className="mt-12">
+                    <div className="bg-white/70 dark:bg-slate-800/70 backdrop-blur-sm rounded-2xl border border-slate-200/50 dark:border-slate-700/50 p-6">
+                        <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
+                            Manage Categories
+                        </h3>
+                        <CategoryManager categories={categories} onUpdate={fetchData} />
+                    </div>
+                </div>
             </div>
 
             {/* Modal for editing tasks */}
@@ -227,6 +325,6 @@ export default function DashboardPage() {
                 onUpdate={handleTodoUpdated}
                 categories={categories}
             />
-        </>
+        </div>
     );
 }

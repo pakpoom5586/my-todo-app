@@ -1,12 +1,20 @@
+// frontend/tailwind.config.js
+import defaultTheme from 'tailwindcss/defaultTheme';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}", // บอกให้ Tailwind สแกนหา class ในไฟล์เหล่านี้
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  darkMode: "class", // เปิดใช้งาน Dark Mode โดยใช้ class 'dark' บน <html> tag
+  darkMode: "class",
   theme: {
-    extend: {},
+    extend: {
+      // ส่วนที่สำคัญคือตรงนี้
+      fontFamily: {
+        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+      },
+    },
   },
   plugins: [],
 }

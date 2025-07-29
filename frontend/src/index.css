@@ -1,76 +1,64 @@
 /* src/index.css */
+
+/* 1. นำเข้า Base, Components, และ Utilities ของ Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+/* 2. กำหนดสไตล์พื้นฐาน (Base Layer) สำหรับทั้งโปรเจกต์ */
+@layer base {
+    /*
+    * กำหนด Font ที่จะใช้ทั้งเว็บ
+    * เราได้ตั้งค่า `font-sans` ใน `tailwind.config.js` ให้เป็น 'Inter' แล้ว
+    * ดังนั้น body จะใช้ 'Inter' เป็น font หลักโดยอัตโนมัติ
+    */
+    body {
+        /* 
+        * สีพื้นหลังและสีตัวอักษรสำหรับ Light/Dark Mode
+        * bg-gray-50: สีเทาอ่อนมากๆ สำหรับ Light Mode
+        * dark:bg-gray-900: สีเทาเข้มสำหรับ Dark Mode
+        */
+        @apply bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-200;
+        
+        /* ทำให้การเปลี่ยนสีดูนุ่มนวล */
+        @apply transition-colors duration-300;
+        
+        /* Anti-aliasing เพื่อให้ font คมชัด สวยงาม */
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    /*
+    * กำหนดสไตล์เริ่มต้นสำหรับ Heading Tags (h1, h2, ...)
+    * สามารถ override ได้ด้วย utility class ใน JSX
+    */
+    h1 {
+        @apply text-3xl font-extrabold tracking-tight md:text-4xl;
+    }
+    h2 {
+        @apply text-2xl font-bold tracking-tight md:text-3xl;
+    }
+    h3 {
+        @apply text-xl font-semibold md:text-2xl;
+    }
+    
+    /*
+    * กำหนดสไตล์เริ่มต้นสำหรับ Links (<a>)
+    */
+    a {
+        @apply text-blue-600 dark:text-blue-400 hover:underline;
+    }
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+/* 3. (Optional) สร้าง Custom Component Classes */
+@layer components {
+    /* 
+    * ตัวอย่างการสร้าง class .btn-primary ที่สามารถนำไปใช้กับ <button> ได้
+    * <button className="btn-primary">Click me</button>
+    */
+    .btn-primary {
+        @apply w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700;
+        @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500;
+        @apply disabled:bg-gray-400 disabled:cursor-not-allowed;
+    }
 }
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-

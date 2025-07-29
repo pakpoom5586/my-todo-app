@@ -7,6 +7,7 @@ export interface Category {
 export interface Todo {
     id: string;
     title: string;
+    description: string
     isCompleted: boolean;
     priority: 'HIGH' | 'MEDIUM' | 'LOW';
     status: 'TODO' | 'IN_PROGRESS' | 'DONE';
