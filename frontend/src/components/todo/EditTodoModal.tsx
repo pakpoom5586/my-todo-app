@@ -24,9 +24,8 @@ const priorityOptions = [
 const quickDateOptions = [
     { label: 'Today', days: 0, icon: '📅' },
     { label: 'Tomorrow', days: 1, icon: '⏰' },
-    { label: 'This Week', days: 7, icon: '📊' },
-    { label: 'Next Week', days: 14, icon: '📈' },
-    { label: 'This Month', days: 30, icon: '📆' },
+    { label: 'Week', days: 7, icon: '📊' },
+    { label: 'Month', days: 30, icon: '📆' },
 ];
 
 export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categories }: EditTodoModalProps) {
@@ -92,16 +91,16 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
         });
 
         toast.promise(promise, {
-            loading: 'Saving changes...',
+            loading: 'Saving...',
             success: (response) => {
                 onUpdate(response.data);
                 onClose();
                 setIsSubmitting(false);
-                return 'Task updated successfully!';
+                return 'Task updated!';
             },
             error: (error) => {
                 setIsSubmitting(false);
-                return 'Failed to save changes.';
+                return 'Failed to save.';
             },
         });
     };
@@ -120,222 +119,227 @@ export default function EditTodoModal({ isOpen, onClose, todo, onUpdate, categor
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} title="">
-            <div className="max-w-2xl mx-auto">
-                {/* Header */}
-                <div className="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
-                    <div className="flex items-center gap-4">
-                        <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl shadow-lg">
-                            <Save className="h-6 w-6 text-white" />
+            <div className="w-full max-w-lg mx-auto max-h-[95vh] flex flex-col">
+                {/* Header - ลดขนาด */}
+                <div className="flex items-center justify-between p-4 border-b border-slate-200 dark:border-slate-700 shrink-0">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
+                            <Save className="h-4 w-4 text-white" />
                         </div>
                         <div>
-                            <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Edit Task</h3>
-                            <p className="text-slate-600 dark:text-slate-400">Update your task details</p>
+                            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Edit Task</h3>
+                            <p className="text-xs text-slate-600 dark:text-slate-400">Update details</p>
                         </div>
                     </div>
                     <button
                         onClick={onClose}
-                        className="p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-xl transition-all duration-200"
+                        className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-all duration-200"
                     >
-                        <X className="h-6 w-6" />
+                        <X className="h-5 w-5" />
                     </button>
                 </div>
 
-                <form onSubmit={handleSubmit} className="p-6 space-y-8">
-                    {/* Title Field */}
-                    <div className="space-y-3">
-                        <label htmlFor="title" className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
-                            Task Title *
-                        </label>
-                        <input
-                            id="title"
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white text-lg"
-                            placeholder="What needs to be done?"
-                            required
-                        />
-                    </div>
-
-                    {/* Description Field */}
-                    <div className="space-y-3">
-                        <label htmlFor="description" className="block text-sm font-semibold text-slate-700 dark:text-slate-300">
-                            Description
-                        </label>
-                        <textarea
-                            id="description"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            rows={3}
-                            className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white resize-none"
-                            placeholder="Add more details about your task..."
-                        />
-                    </div>
-
-                    {/* Priority Field */}
-                    <div className="space-y-4">
-                        <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
-                            <Flag className="h-4 w-4" />
-                            Priority Level
-                        </label>
-                        <div className="grid grid-cols-3 gap-3">
-                            {priorityOptions.map((option) => (
-                                <button
-                                    key={option.value}
-                                    type="button"
-                                    onClick={() => setPriority(option.value as Todo['priority'])}
-                                    className={`p-4 rounded-xl border-2 transition-all duration-200 transform hover:scale-105 ${
-                                        priority === option.value
-                                            ? `${option.bgColor} dark:bg-opacity-20 border-current ${option.color} shadow-lg`
-                                            : 'bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-600'
-                                    }`}
-                                >
-                                    <div className="text-center space-y-1">
-                                        <div className="text-xl">{option.icon}</div>
-                                        <div className="text-sm font-medium">{option.label}</div>
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Due Date Field */}
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between">
-                            <label className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
-                                <Calendar className="h-4 w-4" />
-                                Due Date & Time
+                {/* Form Content - Scrollable */}
+                <div className="flex-1 overflow-y-auto">
+                    <form onSubmit={handleSubmit} className="p-4 space-y-4">
+                        {/* Title Field */}
+                        <div className="space-y-2">
+                            <label htmlFor="title" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Task Title *
                             </label>
-                            {dueDate && (
-                                <button
-                                    type="button"
-                                    onClick={clearDueDate}
-                                    className="text-sm text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
-                                >
-                                    Clear
-                                </button>
-                            )}
+                            <input
+                                id="title"
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                className="w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white"
+                                placeholder="What needs to be done?"
+                                required
+                            />
                         </div>
 
-                        {/* Selected Date Display */}
-                        {dueDate && (
-                            <div className="p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
-                                <div className="flex items-center gap-2">
-                                    <Clock className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                                    <span className="text-blue-700 dark:text-blue-300 font-medium">
-                                        Due: {formatSelectedDate()}
-                                    </span>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Quick Date Options */}
-                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
-                            {quickDateOptions.map((option) => (
-                                <button
-                                    key={option.label}
-                                    type="button"
-                                    onClick={() => handleQuickDate(option.days)}
-                                    className="flex flex-col items-center gap-1 p-3 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-xl transition-all duration-200 hover:scale-105"
-                                >
-                                    <span className="text-lg">{option.icon}</span>
-                                    <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
-                                        {option.label}
-                                    </span>
-                                </button>
-                            ))}
+                        {/* Description Field */}
+                        <div className="space-y-2">
+                            <label htmlFor="description" className="block text-sm font-medium text-slate-700 dark:text-slate-300">
+                                Description
+                            </label>
+                            <textarea
+                                id="description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                rows={2}
+                                className="w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white resize-none"
+                                placeholder="Add details..."
+                            />
                         </div>
 
-                        {/* Custom Date Picker */}
+                        {/* Priority Field */}
                         <div className="space-y-3">
-                            <button
-                                type="button"
-                                onClick={() => setShowCustomDate(!showCustomDate)}
-                                className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
-                            >
-                                <Calendar className="h-4 w-4" />
-                                Custom Date & Time
-                                <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${showCustomDate ? 'rotate-180' : ''}`} />
-                            </button>
+                            <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                <Flag className="h-3.5 w-3.5" />
+                                Priority
+                            </label>
+                            <div className="grid grid-cols-3 gap-2">
+                                {priorityOptions.map((option) => (
+                                    <button
+                                        key={option.value}
+                                        type="button"
+                                        onClick={() => setPriority(option.value as Todo['priority'])}
+                                        className={`p-2.5 rounded-lg border-2 transition-all duration-200 ${
+                                            priority === option.value
+                                                ? `${option.bgColor} dark:bg-opacity-20 border-current ${option.color} shadow-md`
+                                                : 'bg-slate-50 dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-600'
+                                        }`}
+                                    >
+                                        <div className="text-center space-y-0.5">
+                                            <div className="text-lg">{option.icon}</div>
+                                            <div className="text-xs font-medium">{option.label}</div>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
 
-                            {showCustomDate && (
-                                <div className="grid grid-cols-2 gap-3 p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
-                                    <div>
-                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                            Date
-                                        </label>
-                                        <input
-                                            type="date"
-                                            value={dueDate}
-                                            onChange={(e) => setDueDate(e.target.value)}
-                                            className="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
-                                            Time
-                                        </label>
-                                        <input
-                                            type="time"
-                                            value={dueTime}
-                                            onChange={(e) => setDueTime(e.target.value)}
-                                            className="w-full px-3 py-2 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        />
+                        {/* Due Date Field */}
+                        <div className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Due Date
+                                </label>
+                                {dueDate && (
+                                    <button
+                                        type="button"
+                                        onClick={clearDueDate}
+                                        className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
+                                    >
+                                        Clear
+                                    </button>
+                                )}
+                            </div>
+
+                            {/* Selected Date Display */}
+                            {dueDate && (
+                                <div className="p-2.5 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                                    <div className="flex items-center gap-2">
+                                        <Clock className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                                        <span className="text-sm text-blue-700 dark:text-blue-300 font-medium">
+                                            {formatSelectedDate()}
+                                        </span>
                                     </div>
                                 </div>
                             )}
+
+                            {/* Quick Date Options */}
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                {quickDateOptions.map((option) => (
+                                    <button
+                                        key={option.label}
+                                        type="button"
+                                        onClick={() => handleQuickDate(option.days)}
+                                        className="flex flex-col items-center gap-1 p-2 bg-slate-50 dark:bg-slate-700 hover:bg-slate-100 dark:hover:bg-slate-600 border border-slate-200 dark:border-slate-600 rounded-lg transition-all duration-200"
+                                    >
+                                        <span className="text-sm">{option.icon}</span>
+                                        <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
+                                            {option.label}
+                                        </span>
+                                    </button>
+                                ))}
+                            </div>
+
+                            {/* Custom Date Picker */}
+                            <div className="space-y-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setShowCustomDate(!showCustomDate)}
+                                    className="flex items-center gap-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300"
+                                >
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    Custom Date
+                                    <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${showCustomDate ? 'rotate-180' : ''}`} />
+                                </button>
+
+                                {showCustomDate && (
+                                    <div className="grid grid-cols-2 gap-2 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                                                Date
+                                            </label>
+                                            <input
+                                                type="date"
+                                                value={dueDate}
+                                                onChange={(e) => setDueDate(e.target.value)}
+                                                className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-medium text-slate-600 dark:text-slate-400 mb-1">
+                                                Time
+                                            </label>
+                                            <input
+                                                type="time"
+                                                value={dueTime}
+                                                onChange={(e) => setDueTime(e.target.value)}
+                                                className="w-full px-2.5 py-1.5 bg-white dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Category Field */}
-                    <div className="space-y-3">
-                        <label htmlFor="category" className="flex items-center gap-2 text-sm font-semibold text-slate-700 dark:text-slate-300">
-                            <Tag className="h-4 w-4" />
-                            Category
-                        </label>
-                        <select
-                            id="category"
-                            value={categoryId}
-                            onChange={(e) => setCategoryId(e.target.value)}
-                            className="w-full px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white"
-                        >
-                            <option value="">🏷️ No Category</option>
-                            {categories.map(cat => (
-                                <option key={cat.id} value={cat.id}>
-                                    📁 {cat.name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
+                        {/* Category Field */}
+                        <div className="space-y-2">
+                            <label htmlFor="category" className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300">
+                                <Tag className="h-3.5 w-3.5" />
+                                Category
+                            </label>
+                            <select
+                                id="category"
+                                value={categoryId}
+                                onChange={(e) => setCategoryId(e.target.value)}
+                                className="w-full px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-slate-900 dark:text-white"
+                            >
+                                <option value="">🏷️ No Category</option>
+                                {categories.map(cat => (
+                                    <option key={cat.id} value={cat.id}>
+                                        📁 {cat.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </form>
+                </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex justify-end gap-4 pt-6 border-t border-slate-200 dark:border-slate-700">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="px-6 py-3 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl font-medium transition-all duration-200 hover:scale-105"
-                        >
-                            Cancel
-                        </button>
-                        <button
-                            type="submit"
-                            disabled={isSubmitting || !title.trim()}
-                            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-slate-400 disabled:to-slate-500 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 disabled:transform-none disabled:cursor-not-allowed flex items-center gap-2"
-                        >
-                            {isSubmitting ? (
-                                <>
-                                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
-                                    Saving...
-                                </>
-                            ) : (
-                                <>
-                                    <Save className="h-4 w-4" />
-                                    Save Changes
-                                </>
-                            )}
-                        </button>
-                    </div>
-                </form>
+                {/* Action Buttons - Fixed at bottom */}
+                <div className="flex gap-3 p-4 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shrink-0">
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="flex-1 px-4 py-2.5 text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg font-medium transition-all duration-200"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="submit"
+                        form="edit-todo-form"
+                        onClick={handleSubmit}
+                        disabled={isSubmitting || !title.trim()}
+                        className="flex-1 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 disabled:from-slate-400 disabled:to-slate-500 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {isSubmitting ? (
+                            <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                                Saving...
+                            </>
+                        ) : (
+                            <>
+                                <Save className="h-4 w-4" />
+                                Save
+                            </>
+                        )}
+                    </button>
+                </div>
             </div>
         </Modal>
     );
