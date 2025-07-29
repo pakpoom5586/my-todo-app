@@ -1,6 +1,6 @@
 // src/components/todo/TodoFilterControls.tsx
 import type { Category } from "../../types";
-import { Filter, ArrowUpDown, ChevronDown, X, Check } from 'lucide-react';
+import { Filter, ChevronDown, X, Check } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 
 interface FilterControlsProps {
