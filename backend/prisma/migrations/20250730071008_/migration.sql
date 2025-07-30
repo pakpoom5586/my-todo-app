@@ -23,6 +23,7 @@ CREATE TABLE "User" (
 CREATE TABLE "Todo" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "description" TEXT,
     "isCompleted" BOOLEAN NOT NULL DEFAULT false,
     "priority" "Priority" NOT NULL DEFAULT 'MEDIUM',
     "dueDate" TIMESTAMP(3),
@@ -31,6 +32,7 @@ CREATE TABLE "Todo" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
     "categoryId" TEXT,
+    "parentId" TEXT,
 
     CONSTRAINT "Todo_pkey" PRIMARY KEY ("id")
 );
@@ -56,6 +58,9 @@ ALTER TABLE "Todo" ADD CONSTRAINT "Todo_userId_fkey" FOREIGN KEY ("userId") REFE
 
 -- AddForeignKey
 ALTER TABLE "Todo" ADD CONSTRAINT "Todo_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Todo" ADD CONSTRAINT "Todo_parentId_fkey" FOREIGN KEY ("parentId") REFERENCES "Todo"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Category" ADD CONSTRAINT "Category_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
